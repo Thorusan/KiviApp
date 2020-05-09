@@ -1,4 +1,4 @@
-package com.example.kiviapp.repository
+package com.example.kiviapp.network
 
 import com.example.kiviapp.common.Constants.Companion.BASE_URL
 import com.example.kiviapp.datamodel.Vehicle
@@ -6,14 +6,18 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
 interface ApiService {
-    //@GET("/vehicles.json")
     @GET("/")
-    fun getVehicles(): Deferred<List<Vehicle>>
+    suspend fun getVehicles(): Response<List<Vehicle>>
+
+    @GET("/")
+    fun getVehiclesTest(): Deferred<List<Vehicle>>
 
 
     companion object {
@@ -21,7 +25,8 @@ interface ApiService {
             val interceptorHttpLogging = HttpLoggingInterceptor()
             interceptorHttpLogging.level = HttpLoggingInterceptor.Level.BODY
 
-            val interceptorMockData = MockDataInterceptor()
+            val interceptorMockData =
+                MockDataInterceptor()
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(interceptorHttpLogging)

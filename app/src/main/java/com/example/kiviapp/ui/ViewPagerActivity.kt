@@ -3,13 +3,19 @@ package com.example.kiviapp.ui
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.kiviapp.R
 import com.example.kiviapp.application.App
 import com.example.kiviapp.datamodel.Vehicle
-import com.example.kiviapp.repository.ApiService
+import com.example.kiviapp.network.ApiService
+import com.example.kiviapp.repository.VehicleRepository
+import com.example.kiviapp.viewmodel.Status
+import com.example.kiviapp.viewmodel.VehicleViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
@@ -26,7 +32,8 @@ class ViewPagerActivity : AppCompatActivity() {
     private var vehicles: List<Vehicle>? = null
 
     private var job: Job? = null
-
+    private lateinit var viewModel: VehicleViewModel
+    private val service = App.apiService!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +53,9 @@ class ViewPagerActivity : AppCompatActivity() {
                 }
             }).attach()
 
+        getVehiclesList()
 
-        val service = App.apiService!!
-        callapi_getVehicles(service)
+        //callapi_getVehicles_Text(service)
     }
 
     override fun onDestroy() {
@@ -56,12 +63,30 @@ class ViewPagerActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun callapi_getVehicles(service: ApiService) {
+    private fun getVehiclesList() {
+        viewModel = ViewModelProvider(this, VehicleViewModel.ViewModelFactory(VehicleRepository(service)))
+            .get(VehicleViewModel::class.java)
+        viewModel.loadVehicleData().observe(this, Observer { networkResource ->
+            when (networkResource.status) {
+                Status.LOADING -> {
+                    //message.text = "loading data from network"
+                    Log.d("LOADING", "Loading from network")
+                }
+                Status.SUCCESS -> {
+                    val vehicleList = networkResource.data
+                }
+                Status.ERROR -> {
+                    Log.e("ERROR", "Error occured: Loading from network")
+                }
+            }
+        })
+    }
+
+    private fun callapi_getVehicles_Text(service: ApiService) {
         job = CoroutineScope(Dispatchers.IO).launch {
-            val response = service.getVehicles()
+            val response = service.getVehiclesTest()
             withContext(Dispatchers.Main) {
                 try {
-
                     vehicles = response.await()
                 } catch (e: HttpException) {
                     Log.e("REQUEST", "Exception ${e.message}")

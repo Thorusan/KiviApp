@@ -1,16 +1,18 @@
-package com.example.kiviapp.repository
+package com.example.kiviapp.network
 
 import com.example.kiviapp.BuildConfig
 import com.example.kiviapp.datamodel.Vehicle
 import com.example.kiviapp.datamodel.VehicleType
 import com.google.gson.Gson
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody.Companion.toResponseBody
 import java.io.IOException
 
 internal class MockDataInterceptor : Interceptor {
     @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response? {
-        var response: Response? = null
+    override fun intercept(chain: Interceptor.Chain): Response {
+        var response: Response?
         if (BuildConfig.DEBUG) {
             val responseString: String = getVehiclesJson()
 
@@ -20,10 +22,8 @@ internal class MockDataInterceptor : Interceptor {
                 .request(chain.request())
                 .protocol(Protocol.HTTP_1_0)
                 .body(
-                    ResponseBody.create(
-                        MediaType.parse("application/json"),
-                        responseString.toByteArray()
-                    )
+                    responseString.toByteArray()
+                        .toResponseBody("application/json".toMediaTypeOrNull())
                 )
                 .addHeader("content-type", "application/json")
                 .build()

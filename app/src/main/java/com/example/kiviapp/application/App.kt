@@ -1,7 +1,7 @@
 package com.example.kiviapp.application
 
 import android.app.Application
-import com.example.kiviapp.repository.ApiService
+import com.example.kiviapp.network.ApiService
 
 val apiservice by lazy {
     ApiService.create()
