@@ -20,6 +20,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import kotlinx.coroutines.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import retrofit2.HttpException
 
 class ViewPagerActivity : AppCompatActivity() {
@@ -32,8 +33,8 @@ class ViewPagerActivity : AppCompatActivity() {
     private var vehicles: List<Vehicle>? = null
 
     private var job: Job? = null
-    private lateinit var viewModel: VehicleViewModel
-    private val service = App.apiService!!
+
+    private val viewModel by viewModel<VehicleViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +65,6 @@ class ViewPagerActivity : AppCompatActivity() {
     }
 
     private fun getVehiclesList() {
-        viewModel = ViewModelProvider(this, VehicleViewModel.ViewModelFactory(VehicleRepository(service)))
-            .get(VehicleViewModel::class.java)
         viewModel.loadVehicleData().observe(this, Observer { networkResource ->
             when (networkResource.status) {
                 Status.LOADING -> {

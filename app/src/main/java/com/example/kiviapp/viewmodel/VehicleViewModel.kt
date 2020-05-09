@@ -16,11 +16,4 @@ class VehicleViewModel(private val vehicleRepository: VehicleRepository): ViewMo
             emit(Resource.success(response.body()))
         }
     }
-
-    class ViewModelFactory(private var repository: VehicleRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return VehicleViewModel(repository) as T
-        }
-    }
-
 }
