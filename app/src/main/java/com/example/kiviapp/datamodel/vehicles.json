@@ -1,0 +1,18 @@
+[
+  {
+    "brand": "Audi",
+    "model": "A3",
+    "type": "car"
+  },
+  {
+    "brand": "Audi",
+    "model": "A4",
+    "type": "car"
+  },
+  {
+    "brand": "Honda",
+    "model": "A4",
+    "type": "CM-70"
+  }
+]
+
