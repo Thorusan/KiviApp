@@ -17,9 +17,6 @@ import kotlinx.coroutines.*
 import retrofit2.HttpException
 
 class ViewPagerActivity : AppCompatActivity() {
-
-
-
     @BindView(R.id.viewpager)
     lateinit var viewPager: ViewPager2
 
