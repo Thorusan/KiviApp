@@ -11,6 +11,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.kiviapp.R
 import com.example.kiviapp.datamodel.Vehicle
+import com.example.kiviapp.datamodel.VehicleType
 
 
 class VehicleFragment : Fragment() {
@@ -45,7 +46,13 @@ class VehicleFragment : Fragment() {
         val position = requireArguments().getInt(ARG_POSITION)
         val vehicleList: List<Vehicle>? =  requireArguments().getParcelableArrayList(ARG_VEHICLE_LIST)
 
-        val adapter = VehicleViewAdapter(vehicleList!!)
+        lateinit var vehicleListGroupedByType: List<Vehicle>
+        when (position) {
+            0 -> vehicleListGroupedByType = vehicleList!!.filter { it.type == VehicleType.CAR }
+            1 -> vehicleListGroupedByType= vehicleList!!.filter { it.type == VehicleType.MOTORCYCLE }
+        }
+
+        val adapter = VehicleViewAdapter(vehicleListGroupedByType)
         recyclerView.setAdapter(adapter);
     }
 }
