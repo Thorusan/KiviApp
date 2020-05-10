@@ -37,7 +37,8 @@ class VehiclePagerActivity : AppCompatActivity() {
 
         ButterKnife.bind(this)
 
-        viewPager.adapter = VehiclePagerAdapter()
+        val vehiclePagerAdapter = VehiclePagerAdapter(this, 2)
+        viewPager.adapter = vehiclePagerAdapter
 
         TabLayoutMediator(
             tabLayout,
