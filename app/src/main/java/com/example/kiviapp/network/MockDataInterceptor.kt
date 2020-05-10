@@ -38,7 +38,7 @@ internal class MockDataInterceptor : Interceptor {
         vehiclesList.add(Vehicle("Audi", "A3", VehicleType.CAR));
         vehiclesList.add(Vehicle("Audi", "A4", VehicleType.CAR));
         vehiclesList.add(Vehicle("Audi", "A8", VehicleType.CAR));
-        vehiclesList.add(Vehicle("Audi", "A3", VehicleType.CAR));
+        vehiclesList.add(Vehicle("Audi", "Q2", VehicleType.CAR));
         vehiclesList.add(Vehicle("BMW", "323i", VehicleType.CAR));
         vehiclesList.add(Vehicle("BMW", "105", VehicleType.CAR));
         vehiclesList.add(Vehicle("BMW", "106", VehicleType.CAR));
