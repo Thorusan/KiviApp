@@ -30,7 +30,6 @@ class ViewPagerActivity : AppCompatActivity() {
     lateinit var tabLayout: TabLayout
 
     private lateinit var vehicleList: List<Vehicle>
-    private var job: Job? = null
     private val viewModel by viewModel<VehicleViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,11 +51,6 @@ class ViewPagerActivity : AppCompatActivity() {
             }).attach()
 
         getVehiclesList()
-    }
-
-    override fun onDestroy() {
-        job?.cancel()
-        super.onDestroy()
     }
 
     private fun getVehiclesList() {
