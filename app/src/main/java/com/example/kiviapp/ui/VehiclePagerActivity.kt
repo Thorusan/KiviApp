@@ -1,8 +1,10 @@
 package com.example.kiviapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -29,6 +31,9 @@ class VehiclePagerActivity : AppCompatActivity() {
     @BindView(R.id.progress_circle)
     lateinit var progressView: ProgressBar
 
+    @BindView(R.id.btn_scan)
+    lateinit var btnScan: Button
+
     private lateinit var vehicleList: List<Vehicle>
     private val viewModel by viewModel<VehicleViewModel>()
 
@@ -40,6 +45,8 @@ class VehiclePagerActivity : AppCompatActivity() {
 
         getVehiclesList()
     }
+
+
 
     private fun getVehiclesList() {
         viewModel.loadVehicleData().observe(this, Observer { networkResource ->
@@ -74,6 +81,16 @@ class VehiclePagerActivity : AppCompatActivity() {
                     1 -> tab.text = VehicleType.MOTORCYCLE.toString()
                 }
             }).attach()
+
+        registerListeners();
+    }
+
+    private fun registerListeners() {
+        btnScan.setOnClickListener {
+            val intent = Intent(this, ScanActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     fun showProgress() {
