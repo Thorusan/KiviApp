@@ -2,32 +2,31 @@ package com.example.kiviapp.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager2.widget.ViewPager2
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.kiviapp.R
-import com.example.kiviapp.application.App
 import com.example.kiviapp.datamodel.Vehicle
-import com.example.kiviapp.network.ApiService
-import com.example.kiviapp.repository.VehicleRepository
 import com.example.kiviapp.viewmodel.Status
 import com.example.kiviapp.viewmodel.VehicleViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
-import kotlinx.coroutines.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import retrofit2.HttpException
 
 class ViewPagerActivity : AppCompatActivity() {
     @BindView(R.id.viewpager)
     lateinit var viewPager: ViewPager2
+
     @BindView(R.id.tabLayout)
     lateinit var tabLayout: TabLayout
+
+    @BindView(R.id.progress_circle)
+    lateinit var progressView: ProgressBar
 
     private lateinit var vehicleList: List<Vehicle>
     private val viewModel by viewModel<VehicleViewModel>()
@@ -57,10 +56,12 @@ class ViewPagerActivity : AppCompatActivity() {
         viewModel.loadVehicleData().observe(this, Observer { networkResource ->
             when (networkResource.status) {
                 Status.LOADING -> {
-                    //message.text = "loading data from network"
+                    // TODO: Progress bar
+                    showProgress()
                     Log.d("LOADING", "Loading from network")
                 }
                 Status.SUCCESS -> {
+                    hideProgress()
                     vehicleList = networkResource.data as List<Vehicle>
                 }
                 Status.ERROR -> {
@@ -68,5 +69,13 @@ class ViewPagerActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    fun showProgress() {
+        progressView.visibility = View.VISIBLE
+    }
+
+    fun hideProgress() {
+        progressView.visibility = View.GONE
     }
 }
