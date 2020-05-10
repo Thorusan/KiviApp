@@ -11,6 +11,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.kiviapp.R
 import com.example.kiviapp.datamodel.Vehicle
+import com.example.kiviapp.datamodel.VehicleType
 import com.example.kiviapp.viewmodel.Status
 import com.example.kiviapp.viewmodel.VehicleViewModel
 import com.google.android.material.tabs.TabLayout
@@ -37,19 +38,6 @@ class VehiclePagerActivity : AppCompatActivity() {
 
         ButterKnife.bind(this)
 
-        val vehiclePagerAdapter = VehiclePagerAdapter(this, 2)
-        viewPager.adapter = vehiclePagerAdapter
-
-        TabLayoutMediator(
-            tabLayout,
-            viewPager,
-            TabConfigurationStrategy { tab, position ->
-                when (position) {
-                    0 -> tab.text = "Car"
-                    1 -> tab.text = "Motorcycle"
-                }
-            }).attach()
-
         getVehiclesList()
     }
 
@@ -64,12 +52,28 @@ class VehiclePagerActivity : AppCompatActivity() {
                 Status.SUCCESS -> {
                     hideProgress()
                     vehicleList = networkResource.data as List<Vehicle>
+                    initUi();
                 }
                 Status.ERROR -> {
                     Log.e("ERROR", "Error occured: Loading from network")
                 }
             }
         })
+    }
+
+    private fun initUi() {
+        val vehiclePagerAdapter = VehiclePagerAdapter(this, VehicleType.values().size, vehicleList)
+        viewPager.adapter = vehiclePagerAdapter
+
+        TabLayoutMediator(
+            tabLayout,
+            viewPager,
+            TabConfigurationStrategy { tab, position ->
+                when (position) {
+                    0 -> tab.text = VehicleType.CAR.toString()
+                    1 -> tab.text = VehicleType.MOTORCYCLE.toString()
+                }
+            }).attach()
     }
 
     fun showProgress() {

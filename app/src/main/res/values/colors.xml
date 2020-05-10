@@ -5,4 +5,5 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="blue">#2196F3</color>
     <color name="orange">#FF5722</color>
+    <color name="card_color">#b8b894</color>
 </resources>
