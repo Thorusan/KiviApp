@@ -14,6 +14,8 @@ class VehicleViewModel(private val vehicleRepository: VehicleRepository): ViewMo
         val response = vehicleRepository.getVehicles()
         if(response.isSuccessful) {
             emit(Resource.success(response.body()))
+        } else {
+            emit(Resource.error(response.message(), response.errorBody()))
         }
     }
 }

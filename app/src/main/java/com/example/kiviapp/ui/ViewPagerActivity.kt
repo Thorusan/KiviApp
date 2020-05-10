@@ -26,14 +26,11 @@ import retrofit2.HttpException
 class ViewPagerActivity : AppCompatActivity() {
     @BindView(R.id.viewpager)
     lateinit var viewPager: ViewPager2
-
     @BindView(R.id.tabLayout)
     lateinit var tabLayout: TabLayout
 
-    private var vehicles: List<Vehicle>? = null
-
+    private lateinit var vehicleList: List<Vehicle>
     private var job: Job? = null
-
     private val viewModel by viewModel<VehicleViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +67,7 @@ class ViewPagerActivity : AppCompatActivity() {
                     Log.d("LOADING", "Loading from network")
                 }
                 Status.SUCCESS -> {
-                    val vehicleList = networkResource.data
+                    vehicleList = networkResource.data as List<Vehicle>
                 }
                 Status.ERROR -> {
                     Log.e("ERROR", "Error occured: Loading from network")
