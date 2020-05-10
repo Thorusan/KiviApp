@@ -18,7 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ViewPagerActivity : AppCompatActivity() {
+class VehiclePagerActivity : AppCompatActivity() {
     @BindView(R.id.viewpager)
     lateinit var viewPager: ViewPager2
 
@@ -37,7 +37,7 @@ class ViewPagerActivity : AppCompatActivity() {
 
         ButterKnife.bind(this)
 
-        viewPager.adapter = ViewPagerAdapter()
+        viewPager.adapter = VehiclePagerAdapter()
 
         TabLayoutMediator(
             tabLayout,

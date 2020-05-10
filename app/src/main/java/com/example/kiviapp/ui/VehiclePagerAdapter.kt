@@ -1,6 +1,5 @@
 package com.example.kiviapp.ui
 
-import android.graphics.Color.blue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kiviapp.R
 
-class ViewPagerAdapter : RecyclerView.Adapter<ViewPagerAdapter.EventViewHolder>() {
+class VehiclePagerAdapter : RecyclerView.Adapter<VehiclePagerAdapter.EventViewHolder>() {
     val eventList = listOf("Car", "Motorcycle")
 
-    // Layout "layout_demo_viewpager2_cell.xml" will be defined later
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         EventViewHolder(
             LayoutInflater.from(parent.context)
