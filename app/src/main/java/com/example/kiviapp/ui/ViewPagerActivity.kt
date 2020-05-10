@@ -55,8 +55,6 @@ class ViewPagerActivity : AppCompatActivity() {
             }).attach()
 
         getVehiclesList()
-
-        //callapi_getVehicles_Text(service)
     }
 
     override fun onDestroy() {
@@ -79,20 +77,5 @@ class ViewPagerActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun callapi_getVehicles_Text(service: ApiService) {
-        job = CoroutineScope(Dispatchers.IO).launch {
-            val response = service.getVehiclesTest()
-            withContext(Dispatchers.Main) {
-                try {
-                    vehicles = response.await()
-                } catch (e: HttpException) {
-                    Log.e("REQUEST", "Exception ${e.message}")
-                } catch (e: Throwable) {
-                    Log.e("REQUEST", "Some other thing went wrong.")
-                }
-            }
-        }
     }
 }
