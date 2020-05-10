@@ -52,7 +52,6 @@ class VehiclePagerActivity : AppCompatActivity() {
         viewModel.loadVehicleData().observe(this, Observer { networkResource ->
             when (networkResource.status) {
                 Status.LOADING -> {
-                    // TODO: Progress bar
                     showProgress()
                     Log.d("LOADING", "Loading from network")
                 }

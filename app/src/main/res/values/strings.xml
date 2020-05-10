@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">KiviApp</string>
     <string name="scan">Scan</string>
+    <string name="scanned">Item was scanned!</string>
 </resources>
