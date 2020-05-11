@@ -1,5 +1,6 @@
 package com.example.kiviapp.ui
 
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -24,9 +25,14 @@ class SoundActivity : AppCompatActivity() {
                 play()
                 delay(5000)
                 player!!.isLooping = false
-                finish()
+                navigateToStart()
             }
         }
+    }
+
+    private fun navigateToStart() {
+        val intent = Intent(this@SoundActivity, VehiclePagerActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onStop() {

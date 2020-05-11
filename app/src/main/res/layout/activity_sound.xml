@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.ScanActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_sound"
+        android:scaleType = "fitCenter"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

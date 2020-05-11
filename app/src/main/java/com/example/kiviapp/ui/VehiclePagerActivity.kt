@@ -89,7 +89,6 @@ class VehiclePagerActivity : AppCompatActivity() {
             val intent = Intent(this, ScanActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     fun showProgress() {
