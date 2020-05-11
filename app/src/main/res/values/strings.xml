@@ -2,4 +2,6 @@
     <string name="app_name">KiviApp</string>
     <string name="scan">Scan</string>
     <string name="scanned">Item was scanned!</string>
-</resources>
+    <string name="scan_qr_code">Scan QR code</string>
+    <string name="title_activity_custom_scanner">CustomScannerActivity</string>
+   </resources>

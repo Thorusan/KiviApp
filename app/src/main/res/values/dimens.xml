@@ -3,4 +3,5 @@
     <dimen name="progress_bar_margin_top">100dp</dimen>
     <dimen name="text_brand_size">18sp</dimen>
     <dimen name="text_model_size">14sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

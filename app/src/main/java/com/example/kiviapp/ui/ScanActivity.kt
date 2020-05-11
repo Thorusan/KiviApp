@@ -2,9 +2,9 @@ package com.example.kiviapp.ui
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kiviapp.R
 import com.google.zxing.integration.android.IntentIntegrator
 
@@ -21,6 +21,7 @@ class ScanActivity : AppCompatActivity() {
         val scanner = IntentIntegrator(this)
         scanner.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
         scanner.setBeepEnabled(true)
+        scanner.setCaptureActivity(CustomerScannerActivity::class.java)
         scanner.initiateScan()
     }
 
