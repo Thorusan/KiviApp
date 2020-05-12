@@ -10,7 +10,7 @@ import butterknife.ButterKnife
 import com.example.kiviapp.R
 import com.example.kiviapp.datamodel.Vehicle
 
-class VehicleViewAdapter(private val vehicleList: List<Vehicle>) :
+class VehicleViewAdapter(private var vehicleList: List<Vehicle>) :
     RecyclerView.Adapter<VehicleViewAdapter.NewsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -25,6 +25,11 @@ class VehicleViewAdapter(private val vehicleList: List<Vehicle>) :
 
     override fun getItemCount(): Int {
         return vehicleList.size
+    }
+
+    fun refreshData(vehicleList: List<Vehicle>) {
+        this.vehicleList =vehicleList
+        notifyDataSetChanged()
     }
 
     class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
