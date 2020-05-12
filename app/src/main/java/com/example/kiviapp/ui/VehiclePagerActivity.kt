@@ -14,14 +14,17 @@ import androidx.viewpager2.widget.ViewPager2
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.kiviapp.R
+import com.example.kiviapp.common.Utility
 import com.example.kiviapp.datamodel.Vehicle
 import com.example.kiviapp.datamodel.VehicleType
 import com.example.kiviapp.viewmodel.Status
 import com.example.kiviapp.viewmodel.VehicleViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class VehiclePagerActivity : AppCompatActivity() {
@@ -33,6 +36,9 @@ class VehiclePagerActivity : AppCompatActivity() {
 
     @BindView(R.id.progress_circle)
     lateinit var progressView: ProgressBar
+
+    @BindView(R.id.container)
+    lateinit var view: View
 
     @BindView(R.id.btn_scan)
     lateinit var btnScan: Button
@@ -46,7 +52,12 @@ class VehiclePagerActivity : AppCompatActivity() {
 
         ButterKnife.bind(this)
 
-        getVehiclesList()
+        if (Utility.isNetworkAvailable(this)) {
+            getVehiclesList()
+        } else {
+            showSnackbarNoInternet()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -101,6 +112,7 @@ class VehiclePagerActivity : AppCompatActivity() {
         registerListeners();
     }
 
+
     private fun registerListeners() {
         btnScan.setOnClickListener {
             startScanning()
@@ -126,5 +138,16 @@ class VehiclePagerActivity : AppCompatActivity() {
 
     fun hideProgress() {
         progressView.visibility = View.GONE
+    }
+
+    fun showSnackbarNoInternet() {
+        val snack = Snackbar.make(container,
+            getString(R.string.error_internet_connection),
+            Snackbar.LENGTH_INDEFINITE)
+        snack.setAction(getString(R.string.try_again), View.OnClickListener {
+            // executed when TRY AGAIN is clicked
+            getVehiclesList()
+        })
+        snack.show()
     }
 }

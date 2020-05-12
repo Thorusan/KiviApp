@@ -4,4 +4,6 @@
     <string name="scanned">Item was scanned!</string>
     <string name="scan_qr_code">Scan QR code</string>
     <string name="title_activity_custom_scanner">CustomScannerActivity</string>
-   </resources>
+    <string name="error_internet_connection">You are offline. Please connect with internet to continue …</string>
+    <string name="try_again">TRY AGAIN</string>
+</resources>
