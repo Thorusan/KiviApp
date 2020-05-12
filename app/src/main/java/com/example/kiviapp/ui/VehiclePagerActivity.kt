@@ -103,6 +103,12 @@ class VehiclePagerActivity : AppCompatActivity() {
         val vehiclePagerAdapter = VehiclePagerAdapter(this, VehicleType.values().size, vehicleList)
         viewPager.adapter = vehiclePagerAdapter
 
+        setTabs()
+
+        registerListeners();
+    }
+
+    private fun setTabs() {
         TabLayoutMediator(
             tabLayout,
             viewPager,
@@ -112,10 +118,7 @@ class VehiclePagerActivity : AppCompatActivity() {
                     1 -> tab.text = VehicleType.MOTORCYCLE.toString()
                 }
             }).attach()
-
-        registerListeners();
     }
-
 
     private fun registerListeners() {
         btnScan.setOnClickListener {
