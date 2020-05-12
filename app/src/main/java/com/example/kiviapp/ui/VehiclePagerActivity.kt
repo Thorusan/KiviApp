@@ -52,12 +52,16 @@ class VehiclePagerActivity : AppCompatActivity() {
 
         ButterKnife.bind(this)
 
+        checkConnectionAndShowData()
+
+    }
+
+    private fun checkConnectionAndShowData() {
         if (Utility.isNetworkAvailable(this)) {
             getVehiclesList()
         } else {
             showSnackbarNoInternet()
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -144,9 +148,8 @@ class VehiclePagerActivity : AppCompatActivity() {
         val snack = Snackbar.make(container,
             getString(R.string.error_internet_connection),
             Snackbar.LENGTH_INDEFINITE)
-        snack.setAction(getString(R.string.try_again), View.OnClickListener {
-            // executed when TRY AGAIN is clicked
-            getVehiclesList()
+        snack.setAction(getString(R.string.try_again), {
+            checkConnectionAndShowData()
         })
         snack.show()
     }
