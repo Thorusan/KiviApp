@@ -25,9 +25,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.SoundActivity" />
-        <activity
-            android:name=".ui.ScanActivity"
-            android:screenOrientation="fullSensor" />
         <activity android:name=".ui.CustomerScannerActivity" />
     </application>
 

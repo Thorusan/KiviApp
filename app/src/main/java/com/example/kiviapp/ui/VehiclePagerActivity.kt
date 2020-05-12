@@ -1,11 +1,13 @@
 package com.example.kiviapp.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
@@ -19,6 +21,7 @@ import com.example.kiviapp.viewmodel.VehicleViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
+import com.google.zxing.integration.android.IntentIntegrator
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class VehiclePagerActivity : AppCompatActivity() {
@@ -46,7 +49,21 @@ class VehiclePagerActivity : AppCompatActivity() {
         getVehiclesList()
     }
 
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
+            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+            if (result != null) {
+                if (result.contents == null) {
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+                    openSoundActivity()
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+    }
 
     private fun getVehiclesList() {
         viewModel.loadVehicleData().observe(this, Observer { networkResource ->
@@ -86,9 +103,21 @@ class VehiclePagerActivity : AppCompatActivity() {
 
     private fun registerListeners() {
         btnScan.setOnClickListener {
-            val intent = Intent(this, ScanActivity::class.java)
-            startActivity(intent)
+            startScanning()
         }
+    }
+
+    private fun startScanning() {
+        val scanner = IntentIntegrator(this)
+        scanner.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+        scanner.setBeepEnabled(true)
+        scanner.setCaptureActivity(CustomerScannerActivity::class.java)
+        scanner.initiateScan()
+    }
+
+    private fun openSoundActivity() {
+        val intent = Intent(this, SoundActivity::class.java)
+        startActivity(intent)
     }
 
     fun showProgress() {
