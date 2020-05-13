@@ -89,6 +89,8 @@ class VehiclePagerActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS -> {
                     hideProgress()
+
+                    @Suppress("UNCHECKED_CAST")
                     vehicleList = networkResource.data as List<Vehicle>
                     initUi();
                 }
