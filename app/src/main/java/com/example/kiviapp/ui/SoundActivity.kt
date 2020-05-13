@@ -4,30 +4,39 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.kiviapp.R
-import kotlinx.coroutines.*
+import com.example.kiviapp.R.layout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class SoundActivity : AppCompatActivity() {
     var player: MediaPlayer? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sound)
+        setContentView(layout.activity_sound)
 
-        playSound()
+        lifecycleScope.launch {
+            playSound()
+        }
     }
 
-    private fun playSound() {
-        GlobalScope.launch(context = Dispatchers.Main) {
-            delay(500)
-            runBlocking {
+    override fun onBackPressed() {
+        // do nothing when back pressed
+    }
+
+    private suspend fun playSound() {
+        withContext(Dispatchers.Main) {
                 play()
                 delay(5000)
                 player!!.isLooping = false
                 navigateToStart()
             }
-        }
     }
 
     private fun navigateToStart() {
