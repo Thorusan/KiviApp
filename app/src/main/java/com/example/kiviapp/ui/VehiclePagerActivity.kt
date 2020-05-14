@@ -69,9 +69,15 @@ class VehiclePagerActivity : AppCompatActivity() {
             val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
             if (result != null) {
                 if (result.contents == null) {
-                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this, getString(R.string.scan_cancelled),
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
-                    Toast.makeText(this, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this, getString(R.string.scanned_text) + result.contents,
+                        Toast.LENGTH_LONG
+                    ).show()
                     openSoundActivity()
                 }
             } else {
@@ -89,12 +95,12 @@ class VehiclePagerActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS -> {
                     hideProgress()
-
                     @Suppress("UNCHECKED_CAST")
                     vehicleList = networkResource.data as List<Vehicle>
                     initUi();
                 }
                 Status.ERROR -> {
+                    Toast.makeText(this, getString(R.string.error_load_data), Toast.LENGTH_LONG).show()
                     Log.e("ERROR", "Error occured: Loading from network")
                 }
             }
@@ -150,9 +156,11 @@ class VehiclePagerActivity : AppCompatActivity() {
     }
 
     fun showSnackbarNoInternet() {
-        val snack = Snackbar.make(container,
+        val snack = Snackbar.make(
+            container,
             getString(R.string.error_internet_connection),
-            Snackbar.LENGTH_INDEFINITE)
+            Snackbar.LENGTH_INDEFINITE
+        )
         snack.setAction(getString(R.string.try_again), {
             checkConnectionAndShowData()
         })

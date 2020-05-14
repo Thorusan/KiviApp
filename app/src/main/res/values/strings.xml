@@ -6,4 +6,7 @@
     <string name="title_activity_custom_scanner">CustomScannerActivity</string>
     <string name="error_internet_connection">You are offline. Please connect with internet to continue …</string>
     <string name="try_again">TRY AGAIN</string>
+    <string name="scan_cancelled">Scanned cancelled</string>
+    <string name="scanned_text">Scanned:</string>
+    <string name="error_load_data">Error: Cannot load data!</string>
 </resources>
