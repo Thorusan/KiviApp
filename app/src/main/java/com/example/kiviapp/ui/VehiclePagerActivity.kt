@@ -51,9 +51,7 @@ class VehiclePagerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         ButterKnife.bind(this)
-
         checkConnectionAndShowData()
-
     }
 
     private fun checkConnectionAndShowData() {
@@ -95,7 +93,6 @@ class VehiclePagerActivity : AppCompatActivity() {
                 }
                 Status.SUCCESS -> {
                     hideProgress()
-                    @Suppress("UNCHECKED_CAST")
                     vehicleList = networkResource.data as List<Vehicle>
                     initUi();
                 }

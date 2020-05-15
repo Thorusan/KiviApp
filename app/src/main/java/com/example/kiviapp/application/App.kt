@@ -3,9 +3,8 @@ package com.example.kiviapp.application
 import android.app.Application
 import com.example.kiviapp.di.apiModule
 import com.example.kiviapp.di.repositoryModule
-import com.example.kiviapp.di.retrofitModule
+import com.example.kiviapp.di.networkModule
 import com.example.kiviapp.di.viewModelModule
-import com.example.kiviapp.network.ApiService
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -20,7 +19,7 @@ class App : Application() {
         startKoin {
             androidLogger(Level.DEBUG)
             androidContext(this@App)
-            modules(listOf(repositoryModule, viewModelModule, retrofitModule, apiModule))
+            modules(listOf(repositoryModule, viewModelModule, networkModule, apiModule))
         }
     }
 }

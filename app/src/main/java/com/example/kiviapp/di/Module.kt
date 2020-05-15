@@ -3,6 +3,7 @@ package com.example.kiviapp.di
 import com.example.kiviapp.common.Constants
 import com.example.kiviapp.network.ApiService
 import com.example.kiviapp.network.MockDataInterceptor
+import com.example.kiviapp.network.ResponseHandler
 import com.example.kiviapp.repository.VehicleRepository
 import com.example.kiviapp.viewmodel.VehicleViewModel
 import com.google.gson.FieldNamingPolicy
@@ -24,7 +25,7 @@ val viewModelModule = module {
 
 val repositoryModule = module {
     single {
-        VehicleRepository(get())
+        VehicleRepository(get(),get())
     }
 }
 
@@ -36,7 +37,8 @@ val apiModule = module {
     single { provideApiService(get()) }
 }
 
-val retrofitModule = module {
+val networkModule = module {
+    factory { ResponseHandler() }
 
     fun provideGson(): Gson {
         return GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create()
