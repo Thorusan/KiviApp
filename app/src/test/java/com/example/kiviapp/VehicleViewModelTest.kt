@@ -55,7 +55,7 @@ class VehicleViewModelTest {
 
     @Test
     fun `when loadVehicleData is called, then observer is updated with success`() = runBlocking {
-        //viewModel.loadVehicleData().observeForever(vehicleObserver)
+        viewModel.loadVehicleData().observeForever(vehicleObserver)
         delay(10)
         verify(vehicleObserver, timeout(50)).onChanged(Resource.loading(null))
         verify(vehicleObserver, timeout(50)).onChanged(successResource)
