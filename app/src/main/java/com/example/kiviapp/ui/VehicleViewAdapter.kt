@@ -28,7 +28,7 @@ class VehicleViewAdapter(private var vehicleList: List<Vehicle>) :
     }
 
     fun refreshData(vehicleList: List<Vehicle>) {
-        this.vehicleList =vehicleList
+        this.vehicleList = vehicleList
         notifyDataSetChanged()
     }
 

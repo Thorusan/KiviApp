@@ -4,6 +4,13 @@ import com.example.kiviapp.datamodel.Vehicle
 import com.example.kiviapp.network.ApiService
 import com.example.kiviapp.network.ResponseHandler
 import com.example.kiviapp.viewmodel.Resource
+import org.koin.dsl.module
+
+val repositoryModule = module {
+    single {
+        VehicleRepository(get(),get())
+    }
+}
 
 class VehicleRepository (
     private val api: ApiService,

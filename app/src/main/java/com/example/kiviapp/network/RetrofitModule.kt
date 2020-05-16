@@ -1,35 +1,17 @@
-package com.example.kiviapp.di
+package com.example.kiviapp.network
 
 import com.example.kiviapp.common.Constants
-import com.example.kiviapp.network.ApiService
-import com.example.kiviapp.network.MockDataInterceptor
-import com.example.kiviapp.network.ResponseHandler
-import com.example.kiviapp.repository.VehicleRepository
-import com.example.kiviapp.viewmodel.VehicleViewModel
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-val viewModelModule = module {
-    viewModel {
-        VehicleViewModel(get())
-    }
-}
-
-val repositoryModule = module {
-    single {
-        VehicleRepository(get(),get())
-    }
-}
-
-val apiModule = module {
+val apiServiceModule = module {
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
@@ -37,19 +19,26 @@ val apiModule = module {
     single { provideApiService(get()) }
 }
 
-val networkModule = module {
-    factory { ResponseHandler() }
 
+val networkModule = module {
     fun provideGson(): Gson {
         return GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create()
     }
 
-    fun provideHttpClient(): OkHttpClient {
-        val interceptorHttpLogging = HttpLoggingInterceptor()
-        interceptorHttpLogging.level = HttpLoggingInterceptor.Level.BODY
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        return logger
+    }
 
-        val interceptorMockData = MockDataInterceptor()
+    fun provideMockingInterceptor(): MockDataInterceptor {
+        return MockDataInterceptor()
+    }
 
+    fun provideOkHttpClient(
+        interceptorHttpLogging: HttpLoggingInterceptor,
+        interceptorMockData: MockDataInterceptor
+    ): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient.Builder()
             .addInterceptor(interceptorHttpLogging)
             .addInterceptor(interceptorMockData)
@@ -65,7 +54,14 @@ val networkModule = module {
             .build()
     }
 
+    fun provideResponseHandler(): ResponseHandler {
+        return ResponseHandler()
+    }
+
+    single { provideLoggingInterceptor() }
+    single { provideMockingInterceptor() }
+    single { provideResponseHandler() }
+    single { provideOkHttpClient(get(), get()) }
     single { provideGson() }
-    single { provideHttpClient() }
     single { provideRetrofit(get(), get()) }
 }
